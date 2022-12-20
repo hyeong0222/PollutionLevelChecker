@@ -9,11 +9,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: MainRepository) : ViewModel() {
-
-//    init {
-//        getCurrentPollutionInfo()
-//    }
+class MainViewModel @Inject constructor(
+    private val repository: MainRepository,
+) : ViewModel() {
 
     fun getCurrentPollutionInfo() {
         viewModelScope.launch {
@@ -24,6 +22,20 @@ class MainViewModel @Inject constructor(private val repository: MainRepository) 
                 }
             }.onFailure { error ->
                 Timber.e("+++++++++++++++++++++${error.message}")
+            }
+        }
+    }
+
+    fun getCurrentLocationName(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val coordinates = "$longitude,$latitude"
+                val result = repository.getUserLocation(coordinates)
+                result?.results?.get(0)?.region?.let {
+                    Timber.e("++++++++++++++++++++++++${it.area2.name}")
+                }
+            }.onFailure { error ->
+                Timber.e("++++++++++++++++++${error.message}")
             }
         }
     }

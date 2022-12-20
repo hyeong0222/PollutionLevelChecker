@@ -1,6 +1,8 @@
 package com.example.pollutionlevelchecker.di
 
 import com.example.pollutionlevelchecker.network.ApiService
+import com.example.pollutionlevelchecker.network.MainRetrofitClient
+import com.example.pollutionlevelchecker.network.NaverMapsApiService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -18,19 +20,11 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitClient(url: String, gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder().baseUrl(url).client(okHttpClient).addConverterFactory(gsonConverterFactory).build()
+    fun provideApiService(mainRetrofitClient: MainRetrofitClient): ApiService =
+        mainRetrofitClient.createRetrofitClient(ApiService::class.java, false, "http://apis.data.go.kr")
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
-
-    @Provides
-    fun provideBaseUrl(): String = "http://apis.data.go.kr"
-
-    @Provides
-    fun provideGsonConverter(): GsonConverterFactory = GsonConverterFactory.create(GsonBuilder().setLenient().create())
-
-    @Provides
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().connectTimeout(1, TimeUnit.MINUTES).build()
+    fun provideNaverMapsApiService(mainRetrofitClient: MainRetrofitClient): NaverMapsApiService =
+        mainRetrofitClient.createRetrofitClient(NaverMapsApiService::class.java, true, "https://naveropenapi.apigw.ntruss.com/")
 }

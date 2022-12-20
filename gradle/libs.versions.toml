@@ -5,6 +5,8 @@ lifecycle = "2.5.1"
 retrofit2 = "2.9.0"
 hilt = "2.44.2"
 timber = "5.0.1"
+play-services-location = "21.0.1"
+naver-maps-sdk = "3.16.1"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -17,6 +19,9 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-pluginGradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+naver-maps-sdk = { module = "com.naver.maps:map-sdk", version.ref = "naver-maps-sdk"}
+
 
 
 [bundles]
