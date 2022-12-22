@@ -11,9 +11,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import javax.net.ssl.X509TrustManager
 
 @Singleton
-class MainRetrofitClient @Inject constructor() {
+class MainRetrofitClient @Inject constructor(private val selfSigningHelper: SelfSigningHelper) {
     fun <T> createRetrofitClient(cls: Class<T>, isNaverMapCall: Boolean, baseUrl: String): T {
         val okHttpClient = createOkHttpClient(isNaverMapCall)
         val gsonConverter = createGsonConverter()
@@ -33,7 +34,16 @@ class MainRetrofitClient @Inject constructor() {
         if (isNaverMapCall) {
             val headerInterceptor = HeaderInterceptor()
             val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            return client.addInterceptor(headerInterceptor).addInterceptor(logging).build()
+//            return client.addInterceptor(headerInterceptor).addInterceptor(logging).build()
+            return client.run {
+                addInterceptor(headerInterceptor)
+                addInterceptor(logging)
+                sslSocketFactory(
+                    sslSocketFactory = selfSigningHelper.sslContext.socketFactory,
+                    trustManager = selfSigningHelper.tmf.trustManagers[0] as X509TrustManager
+                )
+                build()
+            }
         }
 
         return client.build()
