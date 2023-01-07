@@ -11,7 +11,9 @@ class MainRepository @Inject constructor(
     private val apiService: ApiService,
     private val naverMapsApiService: NaverMapsApiService,
 ) {
-    suspend fun getCurrentPollutionInfo(): MainResponse? = apiService.getCurrentPollutionInfo()
+    suspend fun getCurrentPollutionInfo(sidoName: String): MainResponse? = apiService.getCurrentPollutionInfo(sidoName = sidoName)
 
     suspend fun getUserLocation(coordinates: String) = naverMapsApiService.getUserLocation(coordinates = coordinates)
+
+    suspend fun getCityCoordinates(address: String) = naverMapsApiService.getCityCoordinates(address = address)
 }

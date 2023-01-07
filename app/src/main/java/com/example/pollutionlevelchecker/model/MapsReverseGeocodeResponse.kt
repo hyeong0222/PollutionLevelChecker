@@ -2,7 +2,7 @@ package com.example.pollutionlevelchecker.model
 
 import com.google.gson.annotations.SerializedName
 
-data class MapsResponse(
+data class MapsReverseGeocodeResponse(
 //    @SerializedName("geocoding")
 //    val geocoding: Geocoding
 

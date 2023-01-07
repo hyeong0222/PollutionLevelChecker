@@ -11,7 +11,7 @@ interface ApiService {
     suspend fun getCurrentPollutionInfo(
         @Query("dataTerm") dataTerm: String = "day",
         @Query("returnType") returnType: String = "json",
-        @Query("sidoName") sidoName: String = "서울",
+        @Query("sidoName") sidoName: String,
         @Query("serviceKey") serviceKey: String = BuildConfig.API_KEY,
     ): MainResponse?
 }
