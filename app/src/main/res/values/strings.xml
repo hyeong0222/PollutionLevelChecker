@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PollutionLevelChecker</string>
+    <string name="current_location_text">(현재 위치)</string>
 </resources>

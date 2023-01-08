@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
+import com.example.pollutionlevelchecker.ui.MainScreen
 import com.example.pollutionlevelchecker.ui.theme.PollutionLevelCheckerTheme
 import com.example.pollutionlevelchecker.viewmodel.MainViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -32,13 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PollutionLevelCheckerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                MainScreen()
             }
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MainActivity)
@@ -96,18 +91,5 @@ class MainActivity : ComponentActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
             ), 44
         )
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    PollutionLevelCheckerTheme {
-        Greeting("Android")
     }
 }
