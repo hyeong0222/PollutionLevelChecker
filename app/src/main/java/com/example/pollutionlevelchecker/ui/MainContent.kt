@@ -6,6 +6,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,9 +40,28 @@ internal fun MainContent() {
             style = MainTypography.lastUpdatedText
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
-        
-        Image(painter = painterResource(id = R.drawable.gas_mask), contentDescription = null)
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Image(
+            modifier = Modifier.size(150.dp),
+            painter = painterResource(id = R.drawable.gas_mask),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(color = Color(0xFFFFFFFF)),
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Text(
+            text = "최악",
+            style = MainTypography.pollutionLevelText,
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(
+            text = "절대 나가지 마세요!!!",
+            style = MainTypography.warningMessageText,
+        )
     }
 }
 

@@ -31,4 +31,24 @@ class TypographyVariants(
         color = Color.Gray,
     ),
 
+    val pollutionLevelText: TextStyle = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        fontSize = 26.dp.toSp(density),
+        color = Color.White,
+    ),
+
+    val warningMessageText: TextStyle = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        fontSize = 18.dp.toSp(density),
+        color = Color.White,
+    ),
+
+    val bottomDetailText: TextStyle = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W500,
+        fontSize = 8.dp.toSp(density),
+        color = Color.White,
+    ),
 )
