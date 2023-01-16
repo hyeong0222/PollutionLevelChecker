@@ -5,8 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pollutionlevelchecker.model.PollutionInfo
 import com.example.pollutionlevelchecker.repository.MainRepository
+import com.example.pollutionlevelchecker.ui.MainViewState
 import com.example.pollutionlevelchecker.util.CityNameConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,8 +20,15 @@ class MainViewModel @Inject constructor(
     private val repository: MainRepository,
 ) : ViewModel() {
 
+    private val _currentStationInfo = MutableStateFlow(MainViewState())
+    val currentStationInfo = _currentStationInfo.asStateFlow()
+
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
+
+    init {
+        setLoading()
+    }
 
     fun getCurrentLocationName(latitude: Double, longitude: Double) {
         userLatitude = latitude
@@ -47,7 +58,6 @@ class MainViewModel @Inject constructor(
                     list.forEach { station -> stationList.add(station) }
                 }
 
-//                val stationCoordinates = mutableListOf<Pair<String, String>>()]
                 val stationDistanceList = mutableListOf<Pair<Int, Float>>()
                 stationList.forEachIndexed { index, station ->
                     val searchText = "$sidoName ${station.stationName}"
@@ -72,9 +82,13 @@ class MainViewModel @Inject constructor(
 
                 if (stationDistanceList.isNotEmpty()) {
                     val nearestStationIndex = stationDistanceList.minBy { (_, distance) -> distance }.first
-                    val nearestStation = stationList[nearestStationIndex]
-                    Timber.e("+++++++++++++++++++++ Nearest Station Name : ${nearestStation.sidoName} ${nearestStation.stationName}")
-                    Timber.e("+++++++++++++++++++++ Nearest Station PM10 Level : ${nearestStation.pm10Value}")
+                    _currentStationInfo.update { state ->
+                        state.copy(pollutionInfo = stationList[nearestStationIndex])
+                    }
+                    showData()
+//                    val nearestStation = stationList[nearestStationIndex]
+//                    Timber.e("+++++++++++++++++++++ Nearest Station Name : ${nearestStation.sidoName} ${nearestStation.stationName}")
+//                    Timber.e("+++++++++++++++++++++ Nearest Station PM10 Level : ${nearestStation.pm10Value}")
                 } else {
                     Timber.e("+++++++++++++++++++++stationDistanceList is empty")
                 }
@@ -82,6 +96,30 @@ class MainViewModel @Inject constructor(
             }.onFailure { error ->
                 Timber.e("+++++++++++++++++++++${error.message}")
             }
+        }
+    }
+
+    private fun setLoading() {
+        _currentStationInfo.update { state ->
+            state.copy(loading = true)
+        }
+    }
+
+    private fun showData() {
+        _currentStationInfo.update { state ->
+            state.copy(loading = false, refreshing = false, error = null)
+        }
+    }
+
+    private fun setError(e: Exception) {
+        _currentStationInfo.update { state ->
+            state.copy(error = e, loading = false)
+        }
+    }
+
+    private fun setRefreshing() {
+        _currentStationInfo.update { state ->
+            state.copy(refreshing = true)
         }
     }
 }

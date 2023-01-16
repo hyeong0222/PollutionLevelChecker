@@ -48,7 +48,7 @@ class TypographyVariants(
     val bottomDetailText: TextStyle = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.W500,
-        fontSize = 8.dp.toSp(density),
+        fontSize = 10.dp.toSp(density),
         color = Color.White,
     ),
 )

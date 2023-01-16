@@ -26,19 +26,19 @@ internal fun BottomDetailContent() {
             text = "상세 정보",
             style = MainTypography.bottomDetailText
         )
-        
+
         Spacer(modifier = Modifier.height(10.dp))
 
         Divider(
             color = Color.Gray,
-            thickness = 1.dp,
-            modifier = Modifier.padding(horizontal = 10.dp)
+            thickness = 0.5.dp,
+            modifier = Modifier.padding(horizontal = 5.dp)
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
         Row() {
-            
+
         }
     }
 }

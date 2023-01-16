@@ -16,7 +16,7 @@ import com.example.pollutionlevelchecker.R
 import com.example.pollutionlevelchecker.ui.theme.MainTypography
 
 @Composable
-internal fun MainContent() {
+internal fun MainContent(mainViewState: MainViewState) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -31,12 +31,12 @@ internal fun MainContent() {
         )
 
         Text(
-            text = "구리시 인창동",
+            text = "${mainViewState.pollutionInfo.sidoName} ${mainViewState.pollutionInfo.stationName}",
             style = MainTypography.userCurrentLocationText
         )
 
         Text(
-            text = "2023-01-07 09:45 PM",
+            text = mainViewState.pollutionInfo.dataTime,
             style = MainTypography.lastUpdatedText
         )
 
@@ -68,5 +68,5 @@ internal fun MainContent() {
 @Preview(showBackground = true, backgroundColor = 0x000000)
 @Composable
 private fun MainContentPreview() {
-    MainContent()
+    MainContent(mainViewState = MainViewState())
 }
