@@ -1,6 +1,7 @@
 package com.example.pollutionlevelchecker.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.pollutionlevelchecker.R
 
 @Composable
-internal fun TopBar() {
+internal fun TopBar(onNavigationIconClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -22,7 +23,7 @@ internal fun TopBar() {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-//            modifier = Modifier.padding(start = 10.dp),
+            modifier = Modifier.clickable { onNavigationIconClick.invoke() },
             painter = painterResource(id = R.drawable.ic_baseline_menu),
             contentDescription = null,
             colorFilter = ColorFilter.tint(color = Color(0xFFFFFFFF))
@@ -61,5 +62,5 @@ internal fun TopBar() {
 @Preview(showBackground = true, backgroundColor = 0x000000)
 @Composable
 private fun TopBarPreview() {
-    TopBar()
+    TopBar( onNavigationIconClick = { } )
 }

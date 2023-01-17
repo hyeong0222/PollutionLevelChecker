@@ -51,4 +51,25 @@ class TypographyVariants(
         fontSize = 10.dp.toSp(density),
         color = Color.White,
     ),
+
+    val drawerHeaderTitle: TextStyle = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W600,
+        fontSize = 14.dp.toSp(density),
+        color = Color.White,
+    ),
+
+    val drawerHeaderVersion: TextStyle = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        fontSize = 10.dp.toSp(density),
+        color = Color.White,
+    ),
+
+    val drawerContentText: TextStyle = TextStyle(
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W200,
+        fontSize = 12.dp.toSp(density),
+        color = Color.Black,
+    )
 )
