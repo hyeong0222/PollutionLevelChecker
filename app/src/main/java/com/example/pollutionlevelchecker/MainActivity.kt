@@ -1,20 +1,11 @@
 package com.example.pollutionlevelchecker
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.app.ActivityCompat
 import com.example.pollutionlevelchecker.ui.MainScreen
 import com.example.pollutionlevelchecker.ui.theme.PollutionLevelCheckerTheme
@@ -38,7 +29,6 @@ class MainActivity : ComponentActivity() {
         }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MainActivity)
         getCurrentLocation()
-//        viewModel.getCurrentPollutionInfo()
     }
 
     private fun getCurrentLocation() {
@@ -61,7 +51,7 @@ class MainActivity : ComponentActivity() {
             return
         }
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            viewModel.getCurrentLocationName(location.latitude, location.longitude)
+            viewModel.setCurrentLocation(location.latitude, location.longitude)
         }
     }
 

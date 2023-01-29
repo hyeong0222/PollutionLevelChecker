@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.pollutionlevelchecker.viewmodel.MainViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -42,25 +44,30 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
             DrawerBody()
         }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        val refreshState = rememberSwipeRefreshState(isRefreshing = mainViewState.refreshing)
+        SwipeRefresh(
+            state = refreshState,
+            onRefresh = { viewModel.requestData(isRefresh = true) }
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
 
-            if (mainViewState.loading) {
-                CircularProgressIndicator(modifier = Modifier.size(50.dp))
-            } else {
-                MainContent(mainViewState)
+                if (mainViewState.loading) {
+                    CircularProgressIndicator(modifier = Modifier.size(50.dp))
+                } else {
+                    MainContent(mainViewState)
 
-                Spacer(modifier = Modifier.height(50.dp))
+                    Spacer(modifier = Modifier.height(50.dp))
 
-                BottomDetailContent()
+                    BottomDetailContent()
 
-                Spacer(modifier = Modifier.height(50.dp))
-
+                    Spacer(modifier = Modifier.height(50.dp))
+                }
             }
         }
     }

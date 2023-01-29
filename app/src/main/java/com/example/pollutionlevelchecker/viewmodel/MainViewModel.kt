@@ -30,19 +30,25 @@ class MainViewModel @Inject constructor(
         setLoading()
     }
 
-    fun getCurrentLocationName(latitude: Double, longitude: Double) {
+    fun setCurrentLocation(latitude: Double, longitude: Double) {
         userLatitude = latitude
         userLongitude = longitude
+        requestData()
+    }
 
+    fun requestData(isRefresh: Boolean = false) {
         viewModelScope.launch {
+            if (isRefresh) setRefreshing()
+
             kotlin.runCatching {
-                val userCoordinates = "$longitude,$latitude"
+                val userCoordinates = "$userLongitude,$userLatitude"
                 val userLocation = repository.getUserLocation(userCoordinates)
                 userLocation?.results?.get(0)?.region?.area1?.name.let { cityName ->
                     val sidoName = CityNameConverter.convert(cityName ?: "")
                     getCurrentPollutionInfo(sidoName)
                 }
             }.onFailure { error ->
+                setError(error)
                 Timber.e("++++++++++++++++++${error.message}")
             }
         }
@@ -94,6 +100,7 @@ class MainViewModel @Inject constructor(
                 }
 
             }.onFailure { error ->
+                setError(error)
                 Timber.e("+++++++++++++++++++++${error.message}")
             }
         }
@@ -111,9 +118,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun setError(e: Exception) {
+    private fun setError(error: Throwable) {
         _currentStationInfo.update { state ->
-            state.copy(error = e, loading = false)
+            state.copy(error = error, loading = false)
         }
     }
 
